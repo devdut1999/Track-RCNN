@@ -1,0 +1,1432 @@
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/globalwork/krause/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 5,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/globalwork/krause/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 5,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/globalwork/krause/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating testnet...
+network:
+loading model from models/conv3d_sep2/conv3d_sep2-00000005
+starting from epoch 6
+done
+Forwarding video...
+0002
+Time for forwarding (s): 2.437000148347579e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0006
+Time for forwarding (s): 3.658000423456542e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0007
+Time for forwarding (s): 3.916999958164524e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0008
+Time for forwarding (s): 3.876999471685849e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0010
+Time for forwarding (s): 3.4469994716346264e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0013
+Time for forwarding (s): 2.9619995984830894e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0014
+Time for forwarding (s): 3.83300084649818e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0016
+Time for forwarding (s): 3.954999556299299e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0018
+Time for forwarding (s): 3.4719996619969606e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0000
+Time for forwarding (s): 3.937000656151213e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0001
+Time for forwarding (s): 3.7620002331095748e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0003
+Time for forwarding (s): 3.39800044457661e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0004
+Time for forwarding (s): 3.878999450535048e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0005
+Time for forwarding (s): 3.7549998523900285e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0009
+Time for forwarding (s): 3.93899972550571e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0011
+Time for forwarding (s): 3.561000085028354e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0012
+Time for forwarding (s): 3.7520003388635814e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0015
+Time for forwarding (s): 4.503000127442647e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0017
+Time for forwarding (s): 3.4900003811344504e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0019
+Time for forwarding (s): 4.096999873581808e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0020
+Time for forwarding (s): 3.6969995562685654e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/globalwork/krause/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating testnet...
+network:
+loading model from models/conv3d_sep2/conv3d_sep2-00000005
+starting from epoch 6
+done
+Forwarding video...
+0002
+Time for forwarding (s): 3.62699938705191e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0006
+Time for forwarding (s): 3.5210005080443807e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0007
+Time for forwarding (s): 3.4479999158065766e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0008
+Time for forwarding (s): 3.758999810088426e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0010
+Time for forwarding (s): 4.0919994717114605e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0013
+Time for forwarding (s): 4.712999725597911e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0014
+Time for forwarding (s): 3.564000508049503e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0016
+Time for forwarding (s): 3.411999387026299e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0018
+Time for forwarding (s): 3.785999979299959e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0000
+Time for forwarding (s): 3.7909994716756046e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0001
+Time for forwarding (s): 3.462000677245669e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0003
+Time for forwarding (s): 3.4930008041555993e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0004
+Time for forwarding (s): 4.374999662104528e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0005
+Time for forwarding (s): 7.912500041129533e-05 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0009
+Time for forwarding (s): 3.5679995562531985e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0011
+Time for forwarding (s): 3.7580002754111774e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0012
+Time for forwarding (s): 4.0990007619257085e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0015
+Time for forwarding (s): 3.6680003177025355e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0017
+Time for forwarding (s): 3.4070008041453548e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0019
+Time for forwarding (s): 3.89199976780219e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0020
+Time for forwarding (s): 3.4619997677509673e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/globalwork/krause/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating trainnet...
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 5,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/globalwork/krause/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating trainnet...
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 5,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/globalwork/krause/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating trainnet...
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 5,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating testnet...
+network:
+loading model from models/conv3d_sep2/conv3d_sep2-00000005
+starting from epoch 6
+done
+Forwarding video...
+0002
+Time for forwarding (s): 3.588000254239887e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0006
+Time for forwarding (s): 3.297999683127273e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0007
+Time for forwarding (s): 3.7689997043344192e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0008
+Time for forwarding (s): 4.556000021693762e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0010
+Time for forwarding (s): 3.885999831254594e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0013
+Time for forwarding (s): 4.108000211999752e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0014
+Time for forwarding (s): 3.6020001061842777e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0016
+Time for forwarding (s): 3.6920000638929196e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0018
+Time for forwarding (s): 3.897999704349786e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0000
+Time for forwarding (s): 3.871999979310203e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0001
+Time for forwarding (s): 3.8670004869345576e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0003
+Time for forwarding (s): 4.1740004235180095e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0004
+Time for forwarding (s): 4.086000444658566e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0005
+Time for forwarding (s): 3.730000571522396e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0009
+Time for forwarding (s): 3.75299987354083e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0011
+Time for forwarding (s): 3.895999725500587e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0012
+Time for forwarding (s): 4.6219993237173185e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0015
+Time for forwarding (s): 4.012000317743514e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0017
+Time for forwarding (s): 3.75400031771278e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0019
+Time for forwarding (s): 3.974999344791286e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0020
+Time for forwarding (s): 4.368999725556932e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating testnet...
+network:
+loading model from models/conv3d_sep2/conv3d_sep2-00000005
+starting from epoch 6
+done
+Forwarding video...
+0002
+Time for forwarding (s): 3.501000719552394e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0006
+Time for forwarding (s): 3.486000423436053e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0007
+Time for forwarding (s): 4.182000338914804e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0008
+Time for forwarding (s): 3.5429993658908643e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0010
+Time for forwarding (s): 3.61500042345142e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0013
+Time for forwarding (s): 4.357999387138989e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0014
+Time for forwarding (s): 3.5080001907772385e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0016
+Time for forwarding (s): 4.008999894722365e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0018
+Time for forwarding (s): 4.239000190864317e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0000
+Time for forwarding (s): 3.3989999792538583e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0001
+Time for forwarding (s): 3.5439998100628145e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0003
+Time for forwarding (s): 3.373999788891524e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0004
+Time for forwarding (s): 3.860000106215011e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0005
+Time for forwarding (s): 4.2430001485627145e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0009
+Time for forwarding (s): 3.7059999158373103e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0011
+Time for forwarding (s): 3.3579999580979347e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0012
+Time for forwarding (s): 4.975000592821743e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0015
+Time for forwarding (s): 3.5009998100576922e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0017
+Time for forwarding (s): 2.8059994292561896e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0019
+Time for forwarding (s): 3.6980000004405156e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0020
+Time for forwarding (s): 3.37999972543912e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating trainnet...
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating testnet...
+network:
+initializing model from /models/conv3d_sep2/conv3d_sep2-00000005
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating testnet...
+network:
+loading model from models/conv3d_sep2/conv3d_sep2-00000005
+starting from epoch 6
+done
+Forwarding video...
+0002
+Time for forwarding (s): 9.918000046127418e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0006
+Time for forwarding (s): 3.1459999263461214e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0007
+Time for forwarding (s): 3.15600004796579e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0008
+Time for forwarding (s): 2.6870000056078425e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0010
+Time for forwarding (s): 3.4590000268508447e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0013
+Time for forwarding (s): 3.6000000136482413e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0014
+Time for forwarding (s): 3.2210000426857732e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0016
+Time for forwarding (s): 3.053999989788281e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0018
+Time for forwarding (s): 3.0690000585309463e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0000
+Time for forwarding (s): 2.8879999263153877e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0001
+Time for forwarding (s): 2.9240000003483146e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0003
+Time for forwarding (s): 3.4639999739738414e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0004
+Time for forwarding (s): 2.810999944813375e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0005
+Time for forwarding (s): 2.9150000955269206e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0009
+Time for forwarding (s): 3.6269999554860988e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0011
+Time for forwarding (s): 2.793000021483749e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0012
+Time for forwarding (s): 3.2770000188975246e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0015
+Time for forwarding (s): 3.867000032187207e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0017
+Time for forwarding (s): 3.216999971300538e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0019
+Time for forwarding (s): 2.7580000505622593e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+done
+Forwarding video...
+0020
+Time for forwarding (s): 2.8169999950478086e-06 FPS for forwarding (wo. tracking): 0.0
+Exporting detections
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/data/KITTI_MOTS/train/",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating trainnet...
+{
+  # Engine settings
+  "model": "conv3d_sep2",
+  "task": "train_no_val",
+  "dataset": "KITTI_segtrack",
+  "log_verbosity": 5,
+  "gpus": 1,
+  #"own_dataset_per_gpu": true,
+  "use_summaries": false,
+  "write_summaries": false,
+  "collect_run_metadata": false,
+
+  # MaskRCNN on/off
+  "add_masks": true,
+
+  # Pretrained model from tensorpack
+  "load_init": "/content/drive/MyDrive/TrackR-CNN/models/conv3d_sep2/conv3d_sep2-00000005",
+  # Freeze applies to the whole model, not just our backend, but that's fine since only the backend uses batchnorm
+  "freeze_batchnorm": true,
+  "max_saves_to_keep": 1,
+
+  # Training settings
+  "batch_size": 8,
+  "learning_rates": "{1: 0.0000005}",
+  "optimizer": "adam",
+  "num_epochs": 10,
+  "max_saves_to_keep": 1,
+
+  # Dataset options
+  "KITTI_segtrack_data_dir": "/content/drive/MyDrive/TrackR-CNN/data/KITTI_MOTS/train",
+  "MOTS_segtrack_data_dir": "/globalwork/krause/data/MOTS_challenge/train/",
+  "optical_flow_path": "/globalwork/krause/data/KITTI_flow_pwc/",
+  "prefer_gt_to_ignore": true,
+  "use_ioa_for_ignore": true,
+  "use_masks_for_ignore": true,
+  "resize_mode_train": "fixed_size",
+  "input_size_train": [309, 1024],
+  "resize_mode_val": "fixed_size",
+  "input_size_val": [375, 1242],
+
+  "augmentors_train": ["flip", "gamma"],
+  "num_parallel_calls": 6,
+  "prefetch_buffer_size": 8,
+
+  "mask_disjoint_strategy": "score",
+"tracker": "hungarian", "tracker_reid_comp": "euclidean", "detection_confidence_threshold_car": 0.8469800990815324, "reid_weight_car": 1.0, "mask_iou_weight_car": 0.0, "bbox_center_weight_car": 0.0, "bbox_iou_weight_car": 0.0, "association_threshold_car": 0.8165986526897969, "keep_alive_car": 4, "reid_euclidean_offset_car": 8.810218833503743, "reid_euclidean_scale_car": 1.0090931467228708,
+"detection_confidence_threshold_pedestrian": 0.9368820089063415, "reid_weight_pedestrian": 1.0, "mask_iou_weight_pedestrian": 0.0, "bbox_center_weight_pedestrian": 0.0, "bbox_iou_weight_pedestrian": 0.0, "association_threshold_pedestrian": 0.47985540892434836, "keep_alive_pedestrian": 6, "reid_euclidean_offset_pedestrian": 9.447084376750222, "reid_euclidean_scale_pedestrian": 1.3437965549876354,
+
+  "network": {
+    "resnetconv4": {"class": "ResNet101Conv4"},
+    "conv3d_1": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["resnetconv4"], "old_order": true},
+    "conv3d_2": {"class": "SepConv3DOverBatch", "activation": "relu", "n_features": 1024, "init_type": "identity", "from": ["conv3d_1"], "old_order": true},
+    "frcnn": {"class": "FasterRCNN", "fastrcnn_batch_per_img": 64, "reid_dimension": 128, "reid_loss_per_class": true,
+              "reid_loss_factor": 1.0, "reid_loss_variant": 1, "reid_measure": "euclidean", "from": ["conv3d_2"],
+              "class_agnostic_box_and_mask_heads": true}
+  }
+}
+
+creating testnet...
+network:
+loading model from models/conv3d_sep2/conv3d_sep2-00000005
+starting from epoch 6
+done
+Forwarding video...
+0002
+1 / 233
+6 / 233
+11 / 233
+16 / 233
+21 / 233
+26 / 233
+31 / 233
+36 / 233
+41 / 233
+46 / 233
+51 / 233
+56 / 233
+61 / 233
+66 / 233
+71 / 233
+76 / 233
+81 / 233
+86 / 233
+91 / 233
+96 / 233
+101 / 233
+106 / 233
+111 / 233
+116 / 233
+121 / 233
+126 / 233
+131 / 233
+136 / 233
+141 / 233
+146 / 233
+151 / 233
+156 / 233
+161 / 233
+166 / 233
+171 / 233
+176 / 233
+181 / 233
+186 / 233
+191 / 233
+196 / 233
+201 / 233
+206 / 233
+211 / 233
+216 / 233
+221 / 233
+226 / 233
+231 / 233
+Time for forwarding (s): 8781.058934534 FPS for forwarding (wo. tracking): 0.026534385173485348
+Exporting detections
+done
+Forwarding video...
+0006
+1 / 270
+6 / 270
+11 / 270
+16 / 270
+21 / 270
+26 / 270
+31 / 270
+36 / 270
